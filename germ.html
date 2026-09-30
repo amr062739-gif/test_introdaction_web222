@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dr Amr ELghafary - تكنوسوفت | الحروف الألمانية</title>
+<style>
+  :root{
+    --bg1:#0f0c29;
+    --bg2:#302b63;
+    --bg3:#24243e;
+    --neon1:#00f0ff;
+    --neon2:#ff00e6;
+    --neon3:#ffea00;
+    --glass:rgba(255,255,255,0.08);
+    --glass-border:rgba(255,255,255,0.18);
+    --text:#ffffff;
+    --shadow-neon:0 0 20px rgba(0,240,255,.6), 0 0 40px rgba(255,0,230,.3);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI','Tahoma',sans-serif;}
+
+  body{
+    min-height:100vh;
+    background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
+    background-size:400% 400%;
+    animation:bgMove 18s ease infinite;
+    color:var(--text);
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  @keyframes bgMove{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+  }
+
+  /* Particles Background */
+  .particles{
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+  }
+  .particle{
+    position:absolute;width:4px;height:4px;border-radius:50%;
+    background:var(--neon1);opacity:.6;
+    box-shadow:0 0 10px var(--neon1);
+    animation:float linear infinite;
+  }
+  @keyframes float{
+    0%{transform:translateY(100vh) scale(0);opacity:0}
+    10%{opacity:.8}
+    90%{opacity:.8}
+    100%{transform:translateY(-10vh) scale(1.5);opacity:0}
+  }
+
+  /* Header */
+  header{
+    position:relative;z-index:5;
+    padding:25px 20px 15px;
+    text-align:center;
+    backdrop-filter:blur(10px);
+    background:rgba(0,0,0,.2);
+    border-bottom:1px solid var(--glass-border);
+  }
+  header h1{
+    font-size:clamp(1.4rem,3.5vw,2.3rem);
+    background:linear-gradient(90deg,var(--neon1),var(--neon2),var(--neon3));
+    background-size:200% auto;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    animation:shine 4s linear infinite;
+    text-shadow:0 0 30px rgba(0,240,255,.3);
+    letter-spacing:1px;
+  }
+  header p{
+    margin-top:8px;font-size:.95rem;opacity:.85;
+  }
+  header .brand{
+    display:inline-block;margin-top:10px;
+    padding:5px 18px;border-radius:30px;
+    background:linear-gradient(90deg,var(--neon1),var(--neon2));
+    color:#000;font-weight:bold;font-size:.85rem;
+    box-shadow:var(--shadow-neon);
+    animation:pulse 2s ease-in-out infinite;
+  }
+  @keyframes shine{
+    to{background-position:200% center}
+  }
+  @keyframes pulse{
+    0%,100%{transform:scale(1);box-shadow:0 0 15px rgba(0,240,255,.5)}
+    50%{transform:scale(1.05);box-shadow:0 0 30px rgba(255,0,230,.7)}
+  }
+
+  /* Controls */
+  .controls{
+    position:relative;z-index:5;
+    display:flex;flex-wrap:wrap;gap:12px;justify-content:center;
+    padding:20px;
+  }
+  .btn{
+    padding:10px 22px;border:none;border-radius:30px;
+    background:var(--glass);
+    color:var(--text);font-size:.95rem;font-weight:600;
+    backdrop-filter:blur(10px);
+    border:1px solid var(--glass-border);
+    cursor:pointer;transition:all .3s;
+    display:inline-flex;align-items:center;gap:8px;
+  }
+  .btn:hover{
+    transform:translateY(-3px);
+    background:linear-gradient(90deg,var(--neon1),var(--neon2));
+    color:#000;
+    box-shadow:var(--shadow-neon);
+  }
+  .btn.active{
+    background:linear-gradient(90deg,var(--neon2),var(--neon3));
+    color:#000;
+  }
+
+  /* Progress */
+  .progress-wrap{
+    position:relative;z-index:5;
+    max-width:1200px;margin:0 auto;padding:0 20px;
+  }
+  .progress-bar{
+    height:6px;background:var(--glass);border-radius:10px;overflow:hidden;
+    border:1px solid var(--glass-border);
+  }
+  .progress-fill{
+    height:100%;width:0%;
+    background:linear-gradient(90deg,var(--neon1),var(--neon2),var(--neon3));
+    transition:width .5s ease;
+    box-shadow:0 0 10px var(--neon1);
+  }
+  .progress-info{
+    text-align:center;margin-top:8px;font-size:.85rem;opacity:.8;
+  }
+
+  /* Grid */
+  .grid{
+    position:relative;z-index:5;
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+    gap:20px;
+    padding:25px;
+    max-width:1400px;margin:0 auto;
+  }
+
+  /* Card */
+  .card{
+    position:relative;
+    background:var(--glass);
+    backdrop-filter:blur(15px);
+    border:1px solid var(--glass-border);
+    border-radius:20px;
+    padding:20px 15px;
+    text-align:center;
+    cursor:pointer;
+    transition:all .4s cubic-bezier(.175,.885,.32,1.275);
+    overflow:hidden;
+    transform-style:preserve-3d;
+    perspective:1000px;
+  }
+  .card::before{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(135deg,transparent,rgba(0,240,255,.1),transparent);
+    opacity:0;transition:opacity .4s;
+  }
+  .card:hover{
+    transform:translateY(-10px) rotateX(5deg) rotateY(-5deg) scale(1.03);
+    border-color:var(--neon1);
+    box-shadow:0 20px 40px rgba(0,240,255,.25),0 0 30px rgba(255,0,230,.2);
+  }
+  .card:hover::before{opacity:1}
+  .card.playing{
+    animation:cardPulse 1s ease;
+    border-color:var(--neon3);
+    box-shadow:0 0 40px var(--neon3);
+  }
+  @keyframes cardPulse{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.08)}
+  }
+
+  .letter-big{
+    font-size:4.5rem;font-weight:900;
+    background:linear-gradient(135deg,var(--neon1),var(--neon2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    text-shadow:0 0 40px rgba(0,240,255,.4);
+    line-height:1;
+    animation:letterFloat 3s ease-in-out infinite;
+  }
+  .letter-small{
+    font-size:1.8rem;opacity:.7;margin-top:-5px;
+    color:var(--neon3);
+  }
+  @keyframes letterFloat{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-5px)}
+  }
+
+  .emoji{
+    font-size:3rem;margin:10px 0;
+    filter:drop-shadow(0 0 10px rgba(255,255,255,.3));
+    animation:emojiBounce 2s ease-in-out infinite;
+  }
+  @keyframes emojiBounce{
+    0%,100%{transform:scale(1) rotate(0)}
+    50%{transform:scale(1.1) rotate(5deg)}
+  }
+
+  .word-de{
+    font-size:1.1rem;font-weight:700;
+    color:var(--neon1);
+    margin:5px 0;
+    text-shadow:0 0 10px rgba(0,240,255,.5);
+  }
+  .word-ar{
+    font-size:.95rem;opacity:.9;
+    padding:4px 10px;border-radius:15px;
+    background:rgba(255,255,255,.08);
+    display:inline-block;margin-top:5px;
+  }
+  .pron-ar{
+    font-size:.85rem;opacity:.75;margin-top:6px;
+    font-style:italic;
+  }
+
+  .sound-btn{
+    position:absolute;top:10px;left:10px;
+    width:32px;height:32px;border-radius:50%;
+    background:linear-gradient(135deg,var(--neon1),var(--neon2));
+    border:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    color:#000;font-size:1rem;
+    transition:all .3s;
+    box-shadow:0 0 15px rgba(0,240,255,.5);
+  }
+  .sound-btn:hover{transform:scale(1.2) rotate(15deg)}
+
+  /* Modal */
+  .modal{
+    position:fixed;inset:0;z-index:100;
+    background:rgba(0,0,0,.85);
+    backdrop-filter:blur(15px);
+    display:none;align-items:center;justify-content:center;
+    padding:20px;
+    animation:fadeIn .3s;
+  }
+  .modal.active{display:flex}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  .modal-content{
+    background:linear-gradient(135deg,rgba(48,43,99,.9),rgba(15,12,41,.9));
+    border:2px solid var(--neon1);
+    border-radius:25px;
+    padding:30px;
+    max-width:500px;width:100%;
+    text-align:center;
+    box-shadow:0 0 60px rgba(0,240,255,.4);
+    animation:modalPop .5s cubic-bezier(.175,.885,.32,1.275);
+    position:relative;
+  }
+  @keyframes modalPop{
+    from{transform:scale(.5) rotateY(90deg);opacity:0}
+    to{transform:scale(1) rotateY(0);opacity:1}
+  }
+  .modal .letter-big{font-size:7rem}
+  .modal .emoji{font-size:6rem;margin:15px 0}
+  .modal .word-de{font-size:1.8rem}
+  .modal .word-ar{font-size:1.3rem;padding:8px 20px}
+  .modal .pron-ar{font-size:1.1rem;margin-top:10px}
+
+  .modal-actions{
+    display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap;
+  }
+  .close-btn{
+    position:absolute;top:15px;left:15px;
+    width:40px;height:40px;border-radius:50%;
+    background:rgba(255,0,100,.3);border:1px solid var(--neon2);
+    color:#fff;font-size:1.2rem;cursor:pointer;
+    transition:all .3s;
+  }
+  .close-btn:hover{background:var(--neon2);transform:rotate(90deg)}
+
+  /* Virtual Reality Scene */
+  .vr-scene{
+    margin:20px 0;
+    height:150px;
+    background:linear-gradient(180deg,#1a1a3e 0%,#2d1b4e 50%,#0f0c29 100%);
+    border-radius:15px;
+    position:relative;overflow:hidden;
+    border:1px solid var(--glass-border);
+  }
+  .vr-scene::before{
+    content:'';position:absolute;inset:0;
+    background:
+      radial-gradient(circle at 20% 30%,rgba(0,240,255,.2),transparent 40%),
+      radial-gradient(circle at 80% 70%,rgba(255,0,230,.2),transparent 40%);
+  }
+  .vr-floor{
+    position:absolute;bottom:0;left:0;right:0;height:40%;
+    background:
+      linear-gradient(transparent,rgba(0,240,255,.1)),
+      repeating-linear-gradient(90deg,transparent,transparent 30px,rgba(0,240,255,.3) 30px,rgba(0,240,255,.3) 31px),
+      repeating-linear-gradient(0deg,transparent,transparent 30px,rgba(0,240,255,.3) 30px,rgba(0,240,255,.3) 31px);
+    transform:perspective(300px) rotateX(60deg);
+    transform-origin:bottom;
+  }
+  .vr-object{
+    position:absolute;top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    font-size:5rem;
+    animation:vrFloat 3s ease-in-out infinite;
+    filter:drop-shadow(0 0 20px var(--neon1));
+  }
+  @keyframes vrFloat{
+    0%,100%{transform:translate(-50%,-50%) rotateY(0)}
+    50%{transform:translate(-50%,-60%) rotateY(180deg)}
+  }
+
+  /* Footer */
+  footer{
+    position:relative;z-index:5;
+    text-align:center;padding:30px 20px;
+    margin-top:30px;
+    border-top:1px solid var(--glass-border);
+    background:rgba(0,0,0,.3);
+    backdrop-filter:blur(10px);
+  }
+  footer .logo{
+    font-size:1.3rem;font-weight:bold;
+    background:linear-gradient(90deg,var(--neon1),var(--neon2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  footer p{opacity:.7;margin-top:5px;font-size:.85rem}
+
+  /* Responsive */
+  @media(max-width:600px){
+    .grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;padding:15px}
+    .letter-big{font-size:3.5rem}
+    .emoji{font-size:2.2rem}
+    .modal .letter-big{font-size:5rem}
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar{width:10px}
+  ::-webkit-scrollbar-track{background:var(--bg1)}
+  ::-webkit-scrollbar-thumb{background:linear-gradient(var(--neon1),var(--neon2));border-radius:10px}
+</style>
+</head>
+<body>
+
+<div class="particles" id="particles"></div>
+
+<header>
+  <h1>🇩🇪 الحروف الأبجدية الألمانية بالصوت والصورة 🎓</h1>
+  <p>تعلّم الألمانية بطريقة تفاعلية وعصرية</p>
+  <span class="brand">Dr Amr ELghafary - تكنوسوفت</span>
+</header>
+
+<div class="controls">
+  <button class="btn" id="playAllBtn">🔊 تشغيل الكل</button>
+  <button class="btn" id="shuffleBtn">🎲 ترتيب عشوائي</button>
+  <button class="btn" id="resetBtn">🔄 إعادة الترتيب</button>
+  <button class="btn" id="speedBtn">⚡ السرعة: عادي</button>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-info" id="progressInfo">تم الاستماع إلى 0 من 30 حرف</div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <button class="close-btn" id="closeModal">✕</button>
+    <div class="letter-big" id="mLetter"></div>
+    <div class="letter-small" id="mSmall"></div>
+    <div class="vr-scene">
+      <div class="vr-floor"></div>
+      <div class="vr-object" id="mEmoji"></div>
+    </div>
+    <div class="word-de" id="mWordDe"></div>
+    <div class="word-ar" id="mWordAr"></div>
+    <div class="pron-ar" id="mPron"></div>
+    <div class="modal-actions">
+      <button class="btn" id="mPlay">🔊 استمع</button>
+      <button class="btn" id="mPlayWord">📖 استمع للكلمة</button>
+      <button class="btn" id="mPrev">◀ السابق</button>
+      <button class="btn" id="mNext">التالي ▶</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="logo">Dr Amr ELghafary - تكنوسوفت</div>
+  <p>© 2026 - تطبيق تعليمي تفاعلي للحروف الألمانية</p>
+  <p>صُنع بـ ❤️ لتعليم اللغة الألمانية</p>
+</footer>
+
+<script>
+/* ============ بيانات الحروف الألمانية ============ */
+const letters = [
+  {l:"A",s:"a",word:"Apfel",ar:"تفاحة",pron:"أَبْفِل",emoji:"🍎"},
+  {l:"B",s:"b",word:"Baum",ar:"شجرة",pron:"باوم",emoji:"🌳"},
+  {l:"C",s:"c",word:"Computer",ar:"حاسوب",pron:"كومبيوتر",emoji:"💻"},
+  {l:"D",s:"d",word:"Danke",ar:"شكراً",pron:"دانكه",emoji:"🙏"},
+  {l:"E",s:"e",word:"Elefant",ar:"فيل",pron:"إيلِفانت",emoji:"🐘"},
+  {l:"F",s:"f",word:"Fisch",ar:"سمكة",pron:"فِيش",emoji:"🐟"},
+  {l:"G",s:"g",word:"Garten",ar:"حديقة",pron:"غارتن",emoji:"🌷"},
+  {l:"H",s:"h",word:"Haus",ar:"منزل",pron:"هاوس",emoji:"🏠"},
+  {l:"I",s:"i",word:"Igel",ar:"قنفذ",pron:"إيغل",emoji:"🦔"},
+  {l:"J",s:"j",word:"Jahr",ar:"سنة",pron:"يار",emoji:"📅"},
+  {l:"K",s:"k",word:"Katze",ar:"قطة",pron:"كاتسه",emoji:"🐱"},
+  {l:"L",s:"l",word:"Löwe",ar:"أسد",pron:"لويبه",emoji:"🦁"},
+  {l:"M",s:"m",word:"Mond",ar:"قمر",pron:"موند",emoji:"🌙"},
+  {l:"N",s:"n",word:"Nase",ar:"أنف",pron:"نازه",emoji:"👃"},
+  {l:"O",s:"o",word:"Ohr",ar:"أذن",pron:"أور",emoji:"👂"},
+  {l:"P",s:"p",word:"Pferd",ar:"حصان",pron:"بفيرت",emoji:"🐴"},
+  {l:"Q",s:"q",word:"Qualle",ar:"قنديل بحر",pron:"كفاله",emoji:"🪼"},
+  {l:"R",s:"r",word:"Rose",ar:"وردة",pron:"روزه",emoji:"🌹"},
+  {l:"S",s:"s",word:"Sonne",ar:"شمس",pron:"زونه",emoji:"☀️"},
+  {l:"T",s:"t",word:"Tiger",ar:"نمر",pron:"تيغر",emoji:"🐯"},
+  {l:"U",s:"u",word:"Uhr",ar:"ساعة",pron:"أور",emoji:"⏰"},
+  {l:"V",s:"v",word:"Vogel",ar:"طائر",pron:"فوغِل",emoji:"🐦"},
+  {l:"W",s:"w",word:"Wasser",ar:"ماء",pron:"فاسر",emoji:"💧"},
+  {l:"X",s:"x",word:"Xylophon",ar:"إكسيليفون",pron:"إكسيلوفون",emoji:"🎹"},
+  {l:"Y",s:"y",word:"Yacht",ar:"يخت",pron:"ياخت",emoji:"⛵"},
+  {l:"Z",s:"z",word:"Zebra",ar:"حمار وحشي",pron:"تسيبرا",emoji:"🦓"},
+  {l:"Ä",s:"ä",word:"Ärger",ar:"إزعاج",pron:"إيغر",emoji:"😠"},
+  {l:"Ö",s:"ö",word:"Öl",ar:"زيت",pron:"أول",emoji:"🛢️"},
+  {l:"Ü",s:"ü",word:"Übung",ar:"تمرين",pron:"أوبونغ",emoji:"📝"},
+  {l:"ß",s:"ß",word:"Straße",ar:"شارع",pron:"شتراسه",emoji:"🛣️"}
+];
+
+/* ============ إنشاء الجزيئات ============ */
+const particlesEl = document.getElementById('particles');
+for(let i=0;i<40;i++){
+  const p = document.createElement('div');
+  p.className='particle';
+  p.style.left = Math.random()*100+'%';
+  p.style.animationDuration = (8+Math.random()*12)+'s';
+  p.style.animationDelay = Math.random()*10+'s';
+  const colors = ['#00f0ff','#ff00e6','#ffea00'];
+  const c = colors[Math.floor(Math.random()*3)];
+  p.style.background = c;
+  p.style.boxShadow = `0 0 10px ${c}`;
+  particlesEl.appendChild(p);
+}
+
+/* ============ إنشاء البطاقات ============ */
+const grid = document.getElementById('grid');
+let currentOrder = [...letters];
+let visited = new Set();
+
+function renderCards(list){
+  grid.innerHTML = '';
+  list.forEach((item,idx)=>{
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.idx = idx;
+    card.innerHTML = `
+      <button class="sound-btn" title="استمع">🔊</button>
+      <div class="letter-big">${item.l}</div>
+      <div class="letter-small">${item.s}</div>
+      <div class="emoji">${item.emoji}</div>
+      <div class="word-de">${item.word}</div>
+      <div class="word-ar">${item.ar}</div>
+      <div class="pron-ar">النطق: ${item.pron}</div>
+    `;
+    card.addEventListener('click',(e)=>{
+      if(e.target.classList.contains('sound-btn')){
+        speakLetter(item.l);
+        animateCard(card);
+      } else {
+        openModal(idx);
+      }
+    });
+    grid.appendChild(card);
+  });
+}
+renderCards(currentOrder);
+
+/* ============ النطق ============ */
+let speechRate = 0.9;
+function speak(text, rate=0.9, lang='de-DE'){
+  if(!('speechSynthesis' in window)){
+    alert('المتصفح لا يدعم النطق الصوتي');
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = lang;
+  u.rate = rate;
+  u.pitch = 1;
+  // محاولة اختيار صوت ألماني
+  const voices = window.speechSynthesis.getVoices();
+  const deVoice = voices.find(v=>v.lang.startsWith('de'));
+  if(deVoice) u.voice = deVoice;
+  window.speechSynthesis.speak(u);
+  return u;
+}
+function speakLetter(l){ speak(l, 0.8); }
+function speakWord(w){ speak(w, 0.85); }
+
+// تحميل الأصوات
+if('speechSynthesis' in window){
+  window.speechSynthesis.onvoiceschanged = ()=>{};
+}
+
+/* ============ تأثير البطاقة ============ */
+function animateCard(card){
+  card.classList.add('playing');
+  setTimeout(()=>card.classList.remove('playing'),1000);
+}
+
+/* ============ المودال ============ */
+const modal = document.getElementById('modal');
+let currentModalIdx = 0;
+
+function openModal(idx){
+  currentModalIdx = idx;
+  const item = currentOrder[idx];
+  document.getElementById('mLetter').textContent = item.l;
+  document.getElementById('mSmall').textContent = item.s;
+  document.getElementById('mEmoji').textContent = item.emoji;
+  document.getElementById('mWordDe').textContent = item.word;
+  document.getElementById('mWordAr').textContent = item.ar;
+  document.getElementById('mPron').textContent = 'النطق: '+item.pron;
+  modal.classList.add('active');
+  speakLetter(item.l);
+  markVisited(idx);
+}
+function closeModal(){ modal.classList.remove('active'); }
+document.getElementById('closeModal').onclick = closeModal;
+modal.addEventListener('click',(e)=>{ if(e.target===modal) closeModal(); });
+
+document.getElementById('mPlay').onclick = ()=>{
+  speakLetter(currentOrder[currentModalIdx].l);
+};
+document.getElementById('mPlayWord').onclick = ()=>{
+  speakWord(currentOrder[currentModalIdx].word);
+};
+document.getElementById('mPrev').onclick = ()=>{
+  currentModalIdx = (currentModalIdx-1+currentOrder.length)%currentOrder.length;
+  openModal(currentModalIdx);
+};
+document.getElementById('mNext').onclick = ()=>{
+  currentModalIdx = (currentModalIdx+1)%currentOrder.length;
+  openModal(currentModalIdx);
+};
+
+/* ============ تتبع التقدم ============ */
+function markVisited(idx){
+  visited.add(idx);
+  updateProgress();
+}
+function updateProgress(){
+  const pct = (visited.size/letters.length)*100;
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressInfo').textContent =
+    `تم الاستماع إلى ${visited.size} من ${letters.length} حرف`;
+}
+
+/* ============ أزرار التحكم ============ */
+document.getElementById('playAllBtn').onclick = async ()=>{
+  for(let i=0;i<currentOrder.length;i++){
+    const card = grid.children[i];
+    if(!card) continue;
+    card.classList.add('playing');
+    speakLetter(currentOrder[i].l);
+    markVisited(i);
+    await new Promise(r=>setTimeout(r,1200));
+    card.classList.remove('playing');
+  }
+};
+
+document.getElementById('shuffleBtn').onclick = ()=>{
+  currentOrder = [...letters].sort(()=>Math.random()-0.5);
+  renderCards(currentOrder);
+  visited.clear();
+  updateProgress();
+};
+
+document.getElementById('resetBtn').onclick = ()=>{
+  currentOrder = [...letters];
+  renderCards(currentOrder);
+  visited.clear();
+  updateProgress();
+};
+
+let speedLevel = 0;
+const speeds = [{n:'عادي',v:0.9},{n:'سريع',v:1.3},{n:'بطيء',v:0.6}];
+document.getElementById('speedBtn').onclick = (e)=>{
+  speedLevel = (speedLevel+1)%speeds.length;
+  speechRate = speeds[speedLevel].v;
+  e.target.textContent = '⚡ السرعة: '+speeds[speedLevel].n;
+};
+
+/* ============ اختصار لوحة المفاتيح ============ */
+document.addEventListener('keydown',(e)=>{
+  if(!modal.classList.contains('active')) return;
+  if(e.key==='Escape') closeModal();
+  if(e.key==='ArrowLeft') document.getElementById('mNext').click();
+  if(e.key==='ArrowRight') document.getElementById('mPrev').click();
+  if(e.key===' '){ e.preventDefault(); document.getElementById('mPlay').click(); }
+});
+
+/* ============ تأثير 3D على البطاقات عند حركة الماوس ============ */
+grid.addEventListener('mousemove',(e)=>{
+  const card = e.target.closest('.card');
+  if(!card) return;
+  const rect = card.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  const cx = rect.width/2;
+  const cy = rect.height/2;
+  const rx = ((y-cy)/cy)*-8;
+  const ry = ((x-cx)/cx)*8;
+  card.style.transform = `translateY(-10px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.03)`;
+});
+grid.addEventListener('mouseleave',(e)=>{
+  const card = e.target.closest('.card');
+  if(card) card.style.transform = '';
+},{capture:true});
+grid.addEventListener('mouseout',(e)=>{
+  if(e.target.classList && e.target.classList.contains('card')){
+    e.target.style.transform = '';
+  }
+});
+
+/* ============ صوت النقر (Web Audio) ============ */
+let audioCtx;
+function clickSound(freq=600,dur=0.08){
+  try{
+    if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type='sine';
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.15,audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+dur);
+    osc.connect(gain);gain.connect(audioCtx.destination);
+    osc.start();osc.stop(audioCtx.currentTime+dur);
+  }catch(e){}
+}
+document.querySelectorAll('.btn').forEach(b=>{
+  b.addEventListener('click',()=>clickSound(800));
+});
+</script>
+</body>
+</html>
